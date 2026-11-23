@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS products(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, cat TEXT, emoji TEXT, retail REAL, mrp REAL, bulk REAL DEFAULT 0, purchase REAL DEFAULT 0, gst REAL DEFAULT 18, moq INTEGER DEFAULT 1, stock INTEGER DEFAULT 0, hidden INTEGER DEFAULT 0);
+CREATE TABLE IF NOT EXISTS users(id TEXT PRIMARY KEY, name TEXT, phone TEXT UNIQUE, salt TEXT, hash TEXT, gstin TEXT, ship TEXT, bill TEXT, bulk INTEGER DEFAULT 0, created TEXT);
+CREATE TABLE IF NOT EXISTS sessions(token TEXT PRIMARY KEY, user_id TEXT, created TEXT);
+CREATE TABLE IF NOT EXISTS orders(id TEXT PRIMARY KEY, user_id TEXT, name TEXT, phone TEXT, gstin TEXT, ship TEXT, bill TEXT, bulk INTEGER, items TEXT, status TEXT, day TEXT, created TEXT);
+CREATE TABLE IF NOT EXISTS payments(id INTEGER PRIMARY KEY AUTOINCREMENT, order_id TEXT, amount REAL, created TEXT);
+CREATE TABLE IF NOT EXISTS tickets(id TEXT PRIMARY KEY, user_id TEXT, name TEXT, contact TEXT, topic TEXT, order_id TEXT, status TEXT, thread TEXT, created TEXT);
+CREATE TABLE IF NOT EXISTS enquiries(id TEXT PRIMARY KEY, user_id TEXT, name TEXT, phone TEXT, message TEXT, status TEXT, created TEXT);
+CREATE TABLE IF NOT EXISTS offers(id TEXT PRIMARY KEY, title TEXT, code TEXT, pct REAL, active INTEGER DEFAULT 1);
+CREATE TABLE IF NOT EXISTS posters(id TEXT PRIMARY KEY, title TEXT, src TEXT);
+CREATE TABLE IF NOT EXISTS visits(day TEXT, kind TEXT, n INTEGER DEFAULT 0, PRIMARY KEY(day, kind));
+CREATE TABLE IF NOT EXISTS ledger(id INTEGER PRIMARY KEY AUTOINCREMENT, kind TEXT, note TEXT, amount REAL, created TEXT);
+CREATE INDEX IF NOT EXISTS idx_orders_user ON orders(user_id);
+CREATE INDEX IF NOT EXISTS idx_tickets_user ON tickets(user_id);
